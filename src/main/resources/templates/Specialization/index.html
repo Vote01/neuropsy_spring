@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Application</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js">
+    </script>
+</head>
+<body>
+<div  class="container">
+    <h1>Специализации</h1>
+    <a class="btn btn-success" style="margin-bottom: 1rem;" th:href="@{/specialization/adding}">Добавить новый</a>
+    <table th:if="${specializations.iterator().hasNext()}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <td>ID</td>
+            <td>Название</td>
+            <td></td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="specialization : ${specializations}">
+            <td th:text="${specialization.id}"/>
+            <td th:text="${specialization.name}"/>
+            <td><a class="btn btn-warning"  th:href="@{'/specialization/update/' + ${specialization.id}}">Изменить</a></td>
+            <td><a href="#" class="btn btn-danger" th:attr="data-id=${specialization.id}" onclick="confirmDelete(this);">Удалить</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script th:inline="javascript">
+    function confirmDelete() {
+        if (confirm("Вы точно хотите удалить выбранный метод?")) {
+            var button = event.target;
+            var specialization = button.getAttribute("data-id");
+            window.location.href = '/specialization/delete/' + specialization;
+        }
+    }
+</script>
+</html>

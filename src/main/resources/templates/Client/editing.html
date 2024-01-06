@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Application</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js">
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>Изменение клиента</h1>
+    <form action="#" th:action="@{/client/update}" th:object="${client}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group">
+            <label for="nameFormControlInput" class="form-label bold-text">Имя</label>
+            <input type="text" class="form-control" id="nameFormControlInput" th:field="*{name}">
+            <label for="emailFormControlInput" class="form-label bold-text">Почта</label>
+            <input type="text" class="form-control" id="emailFormControlInput" th:field="*{email}">
+        </div>
+        <input type="submit" class="btn btn-success" style="margin-top: 1rem; margin-right: 1rem;" value="Изменить"/>
+        <input type="reset" class="btn btn-warning" style="margin-top: 1rem;" value="Очистить поле"/>
+    </form>
+    <a href="javascript:history.back()" class="btn btn-info" style="margin-top: 1rem;">Вернуться назад</a>
+</div>
+</body>
+</html>
