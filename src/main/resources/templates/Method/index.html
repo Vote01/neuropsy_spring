@@ -10,6 +10,16 @@
     </script>
 </head>
 <body>
+<div id="menu">
+    <ul>
+        <li><a th:href="@{/}">Home</a></li>
+        <li><a th:href="@{/psychologist}">Психологи</a></li>
+        <li><a th:href="@{/method}">Методы</a></li>
+        <li><a th:href="@{/specialization}">Специализации</a></li>
+    </ul>
+</div>
+
+
 <div  class="container">
     <h1>Методы</h1>
     <a class="btn btn-success" style="margin-bottom: 1rem;" th:href="@{/method/adding}">Добавить новый</a>

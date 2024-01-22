@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Application</title>
+    <link rel = "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src ="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src ="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 style="margin-bottom: 1rem;" >Профиль</h2>
+            <div th:if="${client != null}">
+            <p th:text="'Имя: ' + ${client.name}"></p>
+            <p th:text="'Почта: ' + ${client.email}"></p>
+                </div>
+        </div>
+        <div th:if="${client == null}">
+            <p>Клиент не найден</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <table th:if="${not #lists.isEmpty(sessions)}" class="table table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <td>ID</td>
+                <td>Формат</td>
+                <td>День</td>
+                <td>Время</td>
+                <td>Статус</td>
+                <td></td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s : ${sessions}">
+                <td th:text="${s.id}"/>
+                <td th:text="${s.getFormatStr()}"/>
+                <td th:text="${s.getFormattedDay()}"/>
+                <td th:text="${s.getFormattedTime()}"/>
+                <td th:text="${s.getStatus()}"/>
+                <td><a class="btn btn-warning" th:href="@{'/session/update/' + ${s.id}}">Изменить</a></td>
+                <td><a href="#" class="btn btn-danger" th:attr="data-id=${s.id}" onclick="confirmDelete(this);">Удалить</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="javascript:history.back()" class="btn btn-info" style="margin-top: 1rem;">Вернуться назад</a>
+</div>
+</body>
+</html>

@@ -41,7 +41,7 @@ public class Psychologist {
     private String town;
 
     @Column(name = "videocon")
-    @NotEmpty
+    @NotNull
     private boolean videocon;
 
     @Column(name = "description")
@@ -49,21 +49,37 @@ public class Psychologist {
     @Size(min = 30, max = 255)
     private String description;
 
+    @NotNull
     @Column(name = "age")
-    @NotEmpty
-    @Size(min = 30, max = 255)
-    private String age;
+    @Temporal(TemporalType.DATE)
+    private  Date age;
 
     @Column(name = "education")
     @NotEmpty
-    @Size(min = 30, max = 255)
+    @Size(min = 3, max = 255)
     private String education;
 
 
     @NotNull
-    @Column(name = "practice_start")
+    @Column(name = "practice")
     @Temporal(TemporalType.DATE)
     private Date practice;
+
+    public Date getRegistration() {
+        return registration;
+    }
+
+    public Date getAge() {
+        return age;
+    }
+
+    public List<Session> getSessionList() {
+        return sessionList;
+    }
+
+    public Date getPractice() {
+        return practice;
+    }
 
     @NotNull
     @Column(name = "registration")
@@ -71,6 +87,28 @@ public class Psychologist {
     private Date registration;
 
 
+    @Column(name = "image")
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    @NotNull
+    @Column(name = "price")
+    private int price;
 
     @ManyToMany
     @JoinTable(name = "psychologist_method",
@@ -84,14 +122,48 @@ public class Psychologist {
             inverseJoinColumns = @JoinColumn(name = "specialization_id"))
     private List<Specialization> specializationList;
 
-    @ManyToMany
-    @JoinTable(name = "cp_session",
-            joinColumns = @JoinColumn(name = "psychologist_id"),
-            inverseJoinColumns = @JoinColumn(name = "session_id"))
+    public String isVideocon() {
+        if(videocon) return "Есть";
+        else return "Отсутствует";
+    }
+    public boolean getVideocon() {
+        return videocon;
+    }
+    public String getAgeMath() {
+        Date currentDate = new Date();
+        long differenceInMilliseconds = currentDate.getTime() - age.getTime();
+        long difference = differenceInMilliseconds / (30L *24*60*60*1000*12);
+        return String.valueOf(difference);
+    }
+
+    public String getPracticeMath() {
+        Date currentDate = new Date();
+        long differenceInMilliseconds = currentDate.getTime() - practice.getTime();
+        long differenceInMonths = differenceInMilliseconds / (30L *24*60*60*1000);
+
+        if (differenceInMonths < 6) {
+            return "меньше 6 месяцев";
+        } else if (differenceInMonths >= 6 && differenceInMonths < 12) {
+            return "больше 6 месяцев";
+        } else if (differenceInMonths >= 12 && differenceInMonths < 24) {
+            return "больше года";
+        } else {
+            return "больше 2 лет";
+        }
+    }
+
+
+    public List<Method> getMethodList() {
+        return methodList;
+    }
+
+    public List<Specialization> getSpecializationList() {
+        return specializationList;
+    }
+
+    @OneToMany(mappedBy = "psychologist")
 
     private List<Session> sessionList;
-
-   // insert into psychologist(name, lname, town, videocon, age , education, practice_start, description)
 
    // insert into client_session (client_id, session_id) values (1,1)
 }

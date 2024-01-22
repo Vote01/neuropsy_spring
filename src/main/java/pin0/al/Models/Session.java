@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -17,44 +20,86 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@Table(name = "sessions")
 public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "session_id")
     private Long id;
 
     @Column(name = "format")
-    @NotEmpty
-    @Size(min = 2, max = 255)
-
+    @NotNull
     private boolean format;
 
     @NotNull
     @Column(name = "day_session")
-    @Temporal(TemporalType.DATE)
-    private Date dateDay;
+    private LocalDate dateDay;
 
     @NotNull
     @Column(name = "time_session")
-    @Temporal(TemporalType.DATE)
-    private Date dateTime;
+    private LocalTime dateTime;
 
-
-    @NotNull
+    @NotEmpty
     @Column(name = "status")
-    private Status status;
+    private String status;
 
-    @ManyToMany
-    @JoinTable(name = "cp_session",
-            joinColumns = @JoinColumn(name = "session_id"),
-            inverseJoinColumns = @JoinColumn(name = "psychologist_id"))
-    private List<Psychologist> psychologist;
-    @ManyToMany
-    @JoinTable(name = "cp_session",
-            joinColumns = @JoinColumn(name = "session_id"),
-            inverseJoinColumns = @JoinColumn(name = "client_id"))
-   // @JoinColumn(name = "client_id")
-    private List<Client> client;
+    public Long getId() {
+        return id;
+    }
+
+    public boolean getFormat() {
+        return format;
+    }
+
+    public String getFormatStr() {
+        if(format) return "Онлайн";
+        else return "Оффлайн";
+    }
+
+    public LocalDate getDateDay() {
+        return dateDay;
+    }
+
+    public LocalTime getDateTime() {
+        return dateTime;
+    }
+
+    public String getFormattedDay() {
+        return dateDay.format(DateTimeFormatter.ofPattern("dd MMMM"));
+    }
+
+    // Метод для получения времени в нужном формате
+    public String getFormattedTime() {
+        return dateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
+
+
+
+    public String getStatus() {
+        switch (status){
+            case "W": return "Ожидается";
+            case "F": return "Завершена";
+            case "M": return "Отменена";
+        }
+        return status;
+    }
+
+    public Psychologist getPsychologist() {
+        return psychologist;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "psychologist_id")
+    private Psychologist psychologist;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 
 
     //insert into cp_session(session_id, psychologist_id, client_id) values(1,1,2)

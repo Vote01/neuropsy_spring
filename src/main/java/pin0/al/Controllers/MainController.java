@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MainController {
-    //LB2
 
-    //LB1
     @GetMapping("/")
     public String main(Model model){
         return "redirect:/licences";

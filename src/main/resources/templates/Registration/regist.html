@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Application</title>
+    <link rel = "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src ="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src ="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+<h1>Регистрация клиента</h1>
+<form action="#" th:action="@{/register}" th:object="${userr}" method="post">
+    <input type="hidden" name="role" value="CLIENT"/>
+    <p>Имя:  <input type="text" name="name" placeholder="Введите ваше имя" /></p>
+    <p>Почта:  <input type="text" name="email" placeholder="Введите почту"  /></p>
+    <p>Пароль: <input type="text" name="password" placeholder="Введите пароль"/></p>
+    <p><input type="submit" value="Отправить" /><input type="reset" value="Сброс" /></p>
+</form>
+</body>
+</html>

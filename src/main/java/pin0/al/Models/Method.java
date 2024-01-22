@@ -21,6 +21,14 @@ public class Method {
     @Column(name = "method_id")
     private Long id;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     @NotEmpty
     @Size(min = 2, max = 255)
     @Column(name = "method_name", unique = true)

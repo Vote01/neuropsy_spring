@@ -21,6 +21,14 @@ public class Client {
     @Column(name = "client_id")
     private Long id;
 
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     @Column(name = "name")
     @NotEmpty
     @Size(min = 2, max = 255)
@@ -33,11 +41,15 @@ public class Client {
 
     private String email;
 
-    @ManyToMany
-    @JoinTable(name = "cp_session",
-            joinColumns = @JoinColumn(name = "client_id"),
-            inverseJoinColumns = @JoinColumn(name = "session_id"))
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @OneToMany(mappedBy = "client")
     private List<Session> sessionList;
 
 }

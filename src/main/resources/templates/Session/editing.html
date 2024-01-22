@@ -12,11 +12,49 @@
 <body>
 <div class="container">
     <h1>Изменение специализации</h1>
-    <form action="#" th:action="@{/specialization/update}" th:object="${specialization}" method="post">
+    <form action="#" th:action="@{/session/update}" th:object="${session}" method="post">
         <input type="hidden" th:field="*{id}"/>
         <div class="form-group">
-            <label for="nameFormControlInput" class="form-label bold-text">Название специализации</label>
-            <input type="text" class="form-control" id="nameFormControlInput" th:field="*{name}">
+            <label for="dateDay">Дата сессии:</label>
+            <input type="text" class="form-control" id="dateDay" th:field="${session.dateDay}"><br><br>
+
+            <label for="dateTime">Время сессии:</label>
+            <select id="dateTime" name="dateTime" required>
+                <option th:each="timeOption : ${sessionTimes}" th:value="${timeOption}" th:selected="${timeOption eq session.dateTime}">
+                    <span th:text="${timeOption}"></span>
+                </option>
+            </select><br><br>
+            <label>Формат сессии:</label>
+            <input type="radio" id="online" name="format"  th:field="${session.format}" value="true">
+            <label for="online">Онлайн</label>
+            <input type="radio" id="offline" name="format" th:field="${session.format}" value="false">
+            <label for="offline">Оффлайн</label><br><br>
+
+            <label>Статус сессии:</label>
+            <input type="radio" id="waiting" name="status" value="W" th:checked="${session.status == 'W'}">
+            <label for="waiting">Ожидается</label>
+            <input type="radio" id="finished" name="status" value="F" th:checked="${session.status == 'F'}">
+            <label for="finished">Завершена</label>
+            <input type="radio" id="canceled" name="status" value="M" th:checked="${session.status == 'M'}">
+            <label for="canceled">Отменена</label><br><br>
+
+            <label for="psychologist">Психолог:</label>
+            <select id="psychologist" name="psychologist" required>
+                <option th:each="psychologist : ${psychologists}"
+                        th:value="${psychologist.id}"
+                        th:selected="${session.psychologist != null and psychologist != null and psychologist.id eq session.psychologist.id}">
+                   ID: <span th:text="${psychologist.id}"></span>, Имя: <span th:text="${psychologist.name}"></span>
+                </option>
+            </select><br><br>
+
+            <label for="client">Клиент:</label>
+            <select id="client" name="client" required>
+                <option th:each="client : ${clients}"
+                        th:value="${client.id}"
+                        th:selected="${session.client != null and client != null and client.id eq session.client.id}">
+                    ID: <span th:text="${client.id}"></span>, Имя: <span th:text="${client.name}"></span>
+                </option>
+            </select><br><br>
         </div>
         <input type="submit" class="btn btn-success" style="margin-top: 1rem; margin-right: 1rem;" value="Изменить"/>
         <input type="reset" class="btn btn-warning" style="margin-top: 1rem;" value="Очистить поле"/>

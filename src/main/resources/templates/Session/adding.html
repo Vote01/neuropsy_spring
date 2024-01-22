@@ -11,12 +11,48 @@
 </head>
 <body>
 <div class="container">
-    <h1>Добавление специализации</h1>
-    <form action="#" th:action="@{/specialization/adding}"
+    <h1>Добавление сессии</h1>
+    <form action="#" th:action="@{/session/adding}"
           th:object="${specialization}" method="post">
         <div class="form-group">
-            <label for="nameFormControlInput" class="form-label bold-text">Название специализации</label>
-            <input type="text" class="form-control" id="nameFormControlInput" th:field="*{name}" >
+            <label for="dateDay">Дата сессии:</label>
+            <input type="text" class="form-control" id="dateDay" name="dateDay" required><br><br>
+
+            <label for="dateTime">Время сессии:</label>
+            <select id="dateTime" name="dateTime" required>
+                <option value="03:00">03:00</option>
+                <option value="06:00">06:00</option>
+                <option value="09:00">09:00</option>
+                <option value="12:00">12:00</option>
+                <option value="15:00">15:00</option>
+                <option value="18:00">18:00</option>
+                <option value="21:00">21:00</option>
+                <option value="00:00">00:00</option>
+            </select><br><br>
+
+            <label>Формат сессии:</label>
+
+            <input type="radio" id="online" name="format" value="true" checked>
+            <label for="online">Онлайн</label>
+            <input type="radio" id="offline" name="format" value="false" >
+            <label for="offline">Оффлайн</label><br><br>
+
+            <input type="hidden" name="status" value="W">
+
+            <label for="psychologist">Психолог:</label>
+            <select id="psychologist" name="psychologist" required>
+                <option th:each="psychologist : ${psychologist}" th:value="${psychologist.id}" th:selected="${psychologist.id eq 1}">
+           ID: <span th:text="${psychologist.id}"></span>, Имя: <span th:text="${psychologist.name}"></span>
+                </option>
+            </select><br><br>
+
+            <label for="client">Клиент:</label>
+            <select id="client" name="client" required>
+                <option th:each="client : ${client}" th:value="${client.id}" th:selected="${client.id eq 1}">
+                   ID: <span th:text="${client.id}"></span>, Имя: <span th:text="${client.name}"></span>
+                </option>
+            </select><br><br>
+
         </div>
         <input type="submit" class="btn btn-success" style="margin-top: 1rem; margin-right: 1rem;" value="Добавить"/>
         <input type="reset" class="btn btn-warning" style="margin-top: 1rem;" value="Очистить поле"/>

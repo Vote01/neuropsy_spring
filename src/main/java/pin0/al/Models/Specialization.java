@@ -31,4 +31,11 @@ public class Specialization {
     @JoinColumn(name = "psychologist_id") // имя столбца, содержащего внешний ключ к таблице Psychologist
     private List<Psychologist>  psychologistList;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -11,15 +11,70 @@
 </head>
 <body>
 <div class="container">
-    <h1>Изменение клиента</h1>
-    <form action="#" th:action="@{/client/update}" th:object="${client}" method="post">
+    <h1>Изменение психолога</h1>
+    <form action="#" th:action="@{/psychologist/update}" th:object="${psychologist}" method="post">
         <input type="hidden" th:field="*{id}"/>
         <div class="form-group">
-            <label for="nameFormControlInput" class="form-label bold-text">Имя</label>
+            <label for="nameFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Имя</label>
             <input type="text" class="form-control" id="nameFormControlInput" th:field="*{name}">
-            <label for="emailFormControlInput" class="form-label bold-text">Почта</label>
-            <input type="text" class="form-control" id="emailFormControlInput" th:field="*{email}">
+            <label for="lnameFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Фамилия</label>
+            <input type="text" class="form-control" id="lnameFormControlInput" th:field="*{lname}">
+            <label for="townFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Город</label>
+            <input type="text" class="form-control" id="townFormControlInput" th:field="*{town}">
+            <label class="form-label bold-text" style="font-size: 1.2em;">Видеосвязь</label>
+
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="videoconTrue" th:field="*{videocon}" value="true">
+                <label class="form-check-label" for="videoconTrue">Есть</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="videoconFalse" th:field="*{videocon}" value="false">
+                <label class="form-check-label" for="videoconFalse">Отсутствует</label>
+            </div>
+            <label for="descriptionFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Описание</label>
+            <input type="text" class="form-control" id="descriptionFormControlInput" th:field="*{description}">
+            <label for="educationFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Образование</label>
+            <input type="text" class="form-control" id="educationFormControlInput" th:field="*{education}">
+            <label for="ageFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Дата рождения</label>
+            <input type="text" class="form-control" id="ageFormControlInput" th:field="*{age}" onchange="handleDateChange(this)">
+            <label for="practiceFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Начало практики</label>
+            <input type="text" class="form-control" id="practiceFormControlInput" th:field="*{practice}" onchange="handleDateChange(this)">
+            <label for="registrationFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Дата регистрации</label>
+            <input type="text" class="form-control" id="registrationFormControlInput" th:field="*{registration}"  onchange="handleDateChange(this)">
+
+            <script>
+    function handleDateChange(input) {
+       var inputValue = input.value;
+
+    var numericValue = inputValue.replace(/\D/g, '');
+
+    var formattedDate = numericValue.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3');
+
+    input.value = formattedDate;
+    }
+</script>
+            <label for="priceFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Цена</label>
+            <input type="text" class="form-control" id="priceFormControlInput" th:field="*{price}">
+            <label  class="form-label bold-text" style="font-size: 1.2em;">Метод</label>
+            <div th:each="method : ${allMethods}">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="methodCheckbox-${method.getId()}" th:field="*{methodList}" th:value="${method.getId()}"
+                           th:checked="${psychologist.methodList != null} and ${psychologist.methodList.contains(method)}">
+                    <label class="form-check-label" for="methodCheckbox-${method.getId()}" th:text="${method.getName()}"></label>
+                </div>
+            </div>
+
+            <label  class="form-label bold-text" style="font-size: 1.2em;">Специализация</label>
+            <div th:each="specialization : ${allSpecializations}">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="specializationCheckbox-${specialization.getId()}" th:field="*{specializationList}" th:value="${specialization.getId()}"
+                           th:checked="${psychologist.specializationList != null} and ${psychologist.specializationList.contains(specialization)}">
+                    <label class="form-check-label" for="specializationCheckbox-${specialization.getId()}" th:text="${specialization.getName()}"></label>
+                </div>
+            </div>
         </div>
+        <input type="hidden" th:field="*{image}"/>
+        <input type="hidden" th:field="*{sessionList}"/>
         <input type="submit" class="btn btn-success" style="margin-top: 1rem; margin-right: 1rem;" value="Изменить"/>
         <input type="reset" class="btn btn-warning" style="margin-top: 1rem;" value="Очистить поле"/>
     </form>

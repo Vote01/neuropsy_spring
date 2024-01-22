@@ -10,24 +10,30 @@
     </script>
 </head>
 <body>
-<div  class="container">
-    <h1>Специализации</h1>
-    <a class="btn btn-success" style="margin-bottom: 1rem;" th:href="@{/specialization/adding}">Добавить новый</a>
-    <table th:if="${specializations.iterator().hasNext()}" class="table table-hover">
+<div class="container">
+    <h1>Сессии</h1>
+    <a class="btn btn-success" style="margin-bottom: 1rem;" th:href="@{/session/adding}">Добавить новый</a>
+    <table th:if="${not #lists.isEmpty(sessions)}" class="table table-hover">
         <thead class="thead-dark">
         <tr>
             <td>ID</td>
-            <td>Название</td>
+            <td>Формат</td>
+            <td>День</td>
+            <td>Время</td>
+            <td>Статус</td>
             <td></td>
             <td></td>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="specialization : ${specializations}">
-            <td th:text="${specialization.id}"/>
-            <td th:text="${specialization.name}"/>
-            <td><a class="btn btn-warning"  th:href="@{'/specialization/update/' + ${specialization.id}}">Изменить</a></td>
-            <td><a href="#" class="btn btn-danger" th:attr="data-id=${specialization.id}" onclick="confirmDelete(this);">Удалить</a></td>
+        <tr th:each="s : ${sessions}">
+            <td th:text="${s.id}"/>
+            <td th:text="${s.getFormatStr()}"/>
+            <td th:text="${s.getFormattedDay()}"/>
+            <td th:text="${s.getFormattedTime()}"/>
+            <td th:text="${s.getStatus()}"/>
+            <td><a class="btn btn-warning" th:href="@{'/session/update/' + ${s.id}}">Изменить</a></td>
+            <td><a href="#" class="btn btn-danger" th:attr="data-id=${s.id}" onclick="confirmDelete(this);">Удалить</a></td>
         </tr>
         </tbody>
     </table>
@@ -35,10 +41,10 @@
 </body>
 <script th:inline="javascript">
     function confirmDelete() {
-        if (confirm("Вы точно хотите удалить выбранный метод?")) {
+        if (confirm("Вы точно хотите удалить выбранную сессию?")) {
             var button = event.target;
-            var specialization = button.getAttribute("data-id");
-            window.location.href = '/specialization/delete/' + specialization;
+            var session = button.getAttribute("data-id");
+            window.location.href = '/session/delete/' + session;
         }
     }
 </script>
