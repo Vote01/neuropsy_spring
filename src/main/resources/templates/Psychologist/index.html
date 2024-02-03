@@ -10,81 +10,7 @@
     </script>
 </head>
 <body>
-<style>
-    #menu {
-        background-color: #00BFFF;
-        overflow: hidden;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    #menu ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        display: flex;
-    }
-
-    #menu li {
-        float: left;
-        margin-right: 20px;
-    }
-
-    #menu li a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 1.2em;
-        font-weight: bold;
-        border-bottom: none; /* Remove underlines */
-    }
-
-    #menu li a:hover {
-        background-color: #4CAF50;
-    }
-
-    #menu .user-links {
-        display: flex;
-        align-items: center;
-        color: white;
-        text-align: center;
-        text-decoration: none;
-        font-size: 1.2em;
-        font-weight: bold;
-    }
-
-    #menu .user-links a {
-        margin-right: 10px;
-        color: white;
-        text-decoration: none; /* Remove underlines for user-links */
-    }
-
-    #menu .user-links a:hover {
-        background-color: #4CAF50;
-    }
-</style>
-
-<div id="menu">
-    <ul>
-        <li><a th:href="@{/}">NeuroPsy</a></li>
-        <li><a th:href="@{/}">Home</a></li>
-        <li><a th:href="@{/psychologist}">Психологи</a></li>
-        <li><a sec:authorize="hasRole('ADMIN')" th:href="@{/method}">Методы</a></li>
-        <li><a sec:authorize="hasRole('ADMIN')" th:href="@{/specialization}">Специализации</a></li>
-        <li><a sec:authorize="hasRole('ADMIN')" th:href="@{/session}">Сессии</a></li>
-    </ul>
-    <div class="user-links">
-        <a th:if="${not #authorization.expression('isAuthenticated()')}" th:href="@{/login}">Войти</a>
-        <a th:if="${not #authorization.expression('isAuthenticated()')}" th:href="@{/register}">Зарегистрироваться</a>
-        <a th:if="${#authorization.expression('isAuthenticated()')}" th:href="@{/logout}">Выйти</a>
-        <a th:if="${#authorization.expression('isAuthenticated()')}" th:href="@{/profile}">Профиль</a>
-    </div>
-</div>
-
+<div th:insert="fragments :: header"></div>
 
 <div  class="container">
     <form th:action="@{/psychologist}" method="GET">
@@ -123,7 +49,7 @@
         </div>
         <button type="submit" class="btn btn-primary" style="margin-top: 1em;">Применить</button>
     </form>
-    <a class="btn btn-success" style="margin-bottom: 1rem;" th:href="@{/psychologist/adding}">Добавить нового</a>
+    <a sec:authorize="hasRole('ADMIN')" class="btn btn-success" style="margin-bottom: 1rem;" th:href="@{/psychologist/adding}">Добавить нового</a>
     <style>
     .table-row {
         height: 500px;
@@ -132,7 +58,7 @@
     <table th:if="${psychologists.iterator().hasNext()}" class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            <td>ID</td>
+            <td sec:authorize="hasRole('ADMIN')">ID</td>
             <td>Имя</td>
             <td>Фамилия</td>
             <td>Методы</td>
@@ -143,11 +69,12 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
         </tr>
         </thead>
         <tbody>
         <tr th:each="psychologist : ${psychologists}">
-            <td th:text="${psychologist.id}"/>
+            <td sec:authorize="hasRole('ADMIN')" th:text="${psychologist.id}"/>
             <td th:text="${psychologist.name}"/>
             <td th:text="${psychologist.lname}"/>
             <td>
@@ -167,9 +94,13 @@
             <td><a sec:authorize="hasRole('CLIENT')" class="btn btn-info" th:href="@{'/psychologist/detailsforclient/' + ${psychologist.id}}">Подробнее</a></td>
             <td><a sec:authorize="hasRole('ADMIN')" class="btn btn-warning"  th:href="@{'/psychologist/update/' + ${psychologist.id}}">Изменить</a></td>
             <td><a sec:authorize="hasRole('ADMIN')" href="#" class="btn btn-danger" th:attr="data-id=${psychologist.id}" onclick="confirmDelete(this);">Удалить</a></td>
+
+
         </tr>
         </tbody>
     </table>
+   <a sec:authorize="hasRole('ADMIN')" class="btn btn-info" th:href="@{'/psychologist/report'}">Отчет</a>
+
 </div>
 
 </body>

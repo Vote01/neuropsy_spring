@@ -10,14 +10,20 @@ public class MainController {
 
     @GetMapping("/")
     public String main(Model model){
-        return "redirect:/licences";
-    }
-    @GetMapping("/about")
-    public String about(@RequestParam(name="name", required = false, defaultValue = "По умолчанию") String name, Model model){
-        model.addAttribute("author", name);
-        return "main/about";
+        return "redirect:/home";
     }
 
+    @GetMapping("/logout")
+    public String logout(Model model){
+        return "redirect:/home";
+    }
+
+
+
+    @GetMapping("/home")
+    public String home(@RequestParam(name="name", required = false, defaultValue = "По умолчанию") String name, Model model){
+        return "home";
+    }
 
 
 

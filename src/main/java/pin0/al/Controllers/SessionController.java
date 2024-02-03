@@ -1,7 +1,10 @@
 package pin0.al.Controllers;
 
 import jakarta.validation.Valid;
+import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +15,7 @@ import pin0.al.Models.Session;
 import pin0.al.Repositories.ClientRep;
 import pin0.al.Repositories.PsychologistRep;
 import pin0.al.Repositories.SessionRep;
+import pin0.al.Services.EmailService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +24,14 @@ import java.util.Optional;
 
 @Controller
 public class SessionController {
+
+
+    @Autowired
+    EmailService emailService;
+    @Autowired
+    private JavaMailSender mailSender;
+    @Autowired
+    private Environment environment;
     private SessionRep sessionRep;
     @Autowired
     public void setSessionRep(SessionRep sessionRep){
@@ -59,13 +71,20 @@ public class SessionController {
     public String add(@Valid Session session, BindingResult result){
         try {
             sessionRep.save(session);
-            return "redirect:/session";
-        } catch (Exception e) {
+            emailService.sendSimpleEmail(
+                    session.getClient().getEmail(),
+                    "Назначена сессия",
+                    "Вы назначили сессию с "+session.getPsychologist().getName()+ " на "+session.getDateDay());
 
-            return "session/adding";
+            emailService.sendSimpleEmail(
+                    session.getPsychologist().getEmail(),
+                    "Вам назначена сессия",
+                    "Вам назначили сессию на "+session.getDateDay());
+            return "redirect:/profile";
+        } catch (Exception e) {
+            return "redirect:/psychologist";
         }
     }
-
 
 
     /**
@@ -107,5 +126,23 @@ public class SessionController {
         sessionRep.deleteById(id);
         return "redirect:/session";
     }
+
+    @GetMapping("/session/cancel/{id}")
+    public String cancelsession(@PathVariable("id") Long id){
+        Optional<Session> session =  sessionRep.findById(id);
+        session.get().setStatus("M");
+        sessionRep.save(session.get());
+        return "redirect:/home";
+    }
+
+    @GetMapping("/session/finish/{id}")
+    public String finishsession(@PathVariable("id") Long id){
+        Optional<Session> session =  sessionRep.findById(id);
+        session.get().setStatus("F");
+        sessionRep.save(session.get());
+        return "redirect:/home";
+    }
+
+
 
 }

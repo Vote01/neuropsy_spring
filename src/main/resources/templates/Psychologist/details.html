@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
     <title>Application</title>
@@ -27,6 +27,9 @@
     <div class="form-group col-md-12">
     <img th:src="${psychologist.image}" alt="" border="3" style="max-height: 400px; max-width: 400px; width: auto; height: auto;">
     </div>
+    <td>
+        <a sec:authorize="hasRole('ADMIN')" class="btn btn-warning" th:if="${psychologist.isConfirmed()} == false" th:href="@{'/psychologist/confirmed/' + ${psychologist.id}}">Подтвердить</a>
+    </td>
     <div class="container">
     <table th:if="${not #lists.isEmpty(sessions)}" class="table table-hover">
         <thead class="thead-dark">
@@ -50,6 +53,7 @@
             <td><a class="btn btn-warning" th:href="@{'/session/update/' + ${s.id}}">Изменить</a></td>
             <td><a href="#" class="btn btn-danger" th:attr="data-id=${s.id}" onclick="confirmDelete(this);">Удалить</a></td>
         </tr>
+
         </tbody>
     </table>
     </div>

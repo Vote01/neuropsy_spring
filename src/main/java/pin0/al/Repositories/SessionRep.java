@@ -10,6 +10,7 @@ import java.util.List;
 public interface SessionRep extends CrudRepository<Session, Long> {
 
     List<Session> findByPsychologist(Psychologist psychologist);
-
     List<Session> findByClient(Client client);
+    long countByStatus(String status);
+
 }

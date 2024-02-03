@@ -30,29 +30,48 @@
     <table th:if="${not #lists.isEmpty(sessions)}" class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            <td>ID</td>
             <td>Формат</td>
             <td>День</td>
             <td>Время</td>
             <td>Статус</td>
             <td></td>
-            <td></td>
         </tr>
         </thead>
         <tbody>
         <tr th:each="s : ${sessions}">
-            <td th:text="${s.id}"/>
             <td th:text="${s.getFormatStr()}"/>
             <td th:text="${s.getFormattedDay()}"/>
             <td th:text="${s.getFormattedTime()}"/>
             <td th:text="${s.getStatus()}"/>
-            <td><a class="btn btn-warning" th:href="@{'/session/update/' + ${s.id}}">Изменить</a></td>
-            <td><a href="#" class="btn btn-danger" th:attr="data-id=${s.id}" onclick="confirmDelete(this);">Удалить</a></td>
+            <td>
+                <a class="btn btn-warning" th:if="${s.getStatus()} == 'Ожидается'" th:href="@{'/session/cancel/' + ${s.id}}" onclick="confirmDelete(this);">Отменить</a>
+            </td>
+            <td>
+                <a class="btn btn-warning" th:if="${s.getStatus()} == 'Ожидается'" th:href="@{'/session/finish/' + ${s.id}}" onclick="confirmFinish(this);">Завершить</a>
+            </td>
         </tr>
         </tbody>
     </table>
     </div>
     <a href="javascript:history.back()" class="btn btn-info" style="margin-top: 1rem;">Вернуться назад</a>
 </div>
+<script th:inline="javascript">
+    function confirmDelete() {
+        if (confirm("Вы точно хотите отменить выбранную сессию?")) {
+            var button = event.target;
+            var session = button.getAttribute("data-id");
+            window.location.href = '/session/cancel/' + session;
+        }
+    }
+</script>
+<script th:inline="javascript">
+    function confirmFinish() {
+        if (confirm("Вы точно хотите завершить выбранную сессию?")) {
+            var button = event.target;
+            var session = button.getAttribute("data-id");
+            window.location.href = '/session/finish/' + session;
+        }
+    }
+</script>
 </body>
 </html>

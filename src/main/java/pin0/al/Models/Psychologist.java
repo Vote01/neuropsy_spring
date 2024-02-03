@@ -24,18 +24,18 @@ public class Psychologist {
     private Long id;
 
     @Column(name = "name")
-    @NotEmpty
+    @NotEmpty(message = "Имя должно быть заполнено")
     @Size(min = 2, max = 255)
 
     private String name;
     @Column(name = "lname")
-    @NotEmpty
+    @NotEmpty(message = "Фамилия должна быть заполнена")
     @Size(min = 2, max = 255)
 
     private String lname;
 
     @Column(name = "town")
-    @NotEmpty
+    @NotEmpty(message = "Город должен быть заполнен")
     @Size(min = 2, max = 255)
 
     private String town;
@@ -44,23 +44,33 @@ public class Psychologist {
     @NotNull
     private boolean videocon;
 
+    @Column(name = "confirmed")
+    @NotNull
+    private boolean confirmed;
+
+
     @Column(name = "description")
-    @NotEmpty
+    @NotEmpty(message = "Описание должно быть заполнено")
     @Size(min = 30, max = 255)
     private String description;
 
-    @NotNull
+    @NotNull(message = "Введите дату рождения в формате yyyy-mm-dd")
     @Column(name = "age")
     @Temporal(TemporalType.DATE)
     private  Date age;
 
     @Column(name = "education")
-    @NotEmpty
+    @NotEmpty(message = "Образование должно быть заполнено")
     @Size(min = 3, max = 255)
     private String education;
 
+    @Column(name = "email")
+    @NotEmpty(message = "Почта должна быть заполнена")
+    @Size(min = 3, max = 100)
+    private String email;
 
-    @NotNull
+
+    @NotNull(message = "Введите дату в формате yyyy-mm-dd")
     @Column(name = "practice")
     @Temporal(TemporalType.DATE)
     private Date practice;
@@ -81,7 +91,7 @@ public class Psychologist {
         return practice;
     }
 
-    @NotNull
+    @NotNull(message = "Введите дату в формате yyyy-mm-dd")
     @Column(name = "registration")
     @Temporal(TemporalType.DATE)
     private Date registration;
@@ -89,6 +99,14 @@ public class Psychologist {
 
     @Column(name = "image")
     private String image;
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
 
     public String getImage() {
         return image;
@@ -106,7 +124,7 @@ public class Psychologist {
         this.price = price;
     }
 
-    @NotNull
+    @NotNull(message = "Введите цену")
     @Column(name = "price")
     private int price;
 

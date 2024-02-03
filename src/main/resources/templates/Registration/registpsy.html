@@ -1,20 +1,19 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
     <title>Application</title>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js">
-    </script>
+    <link rel = "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src ="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src ="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <h1>Добавление психолога</h1>
-    <form action="#" th:action="@{/psychologist/adding}" th:object="${psychologist}" method="post" enctype="multipart/form-data">
+<div th:insert="fragments :: header"></div>
+<h1>Регистрация психолога</h1>
+<h3  text-align: center>Заполните данную форму, чтоб оставить заявку. Мы рассмотрим её в течение 5 рабочих дней, свяжемся с вами и сообщим о результатах. </h3>
+<form action="#" th:action="@{/registerpsy}" th:object="${psychologist}" method="post">
         <div class="form-group">
-            <input type="hidden"  th:field="*{confirmed}" value="true"/>
+            <input type="hidden"  th:field="*{confirmed}" value="false"/>
             <label for="nameFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Имя</label>
             <input type="text" class="form-control" id="nameFormControlInput" th:field="*{name}">
             <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
@@ -36,9 +35,6 @@
             <label for="descriptionFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Описание</label>
             <input type="text" class="form-control" id="descriptionFormControlInput" th:field="*{description}">
             <div class="alert alert-warning" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
-            <label for="emailFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Почта</label>
-            <input type="text" class="form-control" id="emailFormControlInput" th:field="*{email}">
-            <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
             <label for="educationFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Образование</label>
             <input type="text" class="form-control" id="educationFormControlInput" th:field="*{education}">
             <div class="alert alert-warning" th:if="${#fields.hasErrors('education')}" th:errors="*{education}"></div>
@@ -51,20 +47,19 @@
             <label for="registrationFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Дата регистрации </label>
             <input type="text" class="form-control" id="registrationFormControlInput" th:field="*{registration}"  onchange="handleDateChange(this)" placeholder="1998-01-01">
             <div class="alert alert-warning" th:if="${#fields.hasErrors('registration')}" th:errors="*{registration}"></div>
+
             <script>
     function handleDateChange(input) {
        var inputValue = input.value;
-
     var numericValue = inputValue.replace(/\D/g, '');
-
     var formattedDate = numericValue.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3');
-
     input.value = formattedDate;
     }
 </script>
             <label for="priceFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Цена</label>
-            <input type="text" class="form-control" id="priceFormControlInput" th:field="*{price}">
+            <input type="text" class="form-control col-md-6" id="priceFormControlInput" th:field="*{price}">
             <div class="alert alert-warning" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+
             <label  class="form-label bold-text" style="font-size: 1.2em;">Метод</label>
             <div th:each="method : ${allMethods}">
                 <div class="form-check">
@@ -82,11 +77,12 @@
                     <label class="form-check-label" for="specializationCheckbox-${specialization.getId()}" th:text="${specialization.getName()}"></label>
                 </div>
             </div>
+            <label for="emailFormControlInput" class="form-label bold-text" style="font-size: 1.2em;">Почта</label>
+            <input type="text" class="form-control col-md-6" id="emailFormControlInput" th:field="*{email}">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
         </div>
-        <input type="submit" class="btn btn-success" style="margin-top: 1rem; margin-right: 1rem;" value="Добавить"/>
-        <input type="reset" class="btn btn-warning" style="margin-top: 1rem;" value="Очистить поле"/>
+        <input type="submit" class="btn btn-success" style="margin-top: 1rem; margin-right: 1rem;" value="Оставить заявку"/>
     </form>
-    <a href="javascript:history.back()" class="btn btn-info" style="margin-top: 1rem;">Вернуться назад</a>
-</div>
 </body>
 </html>

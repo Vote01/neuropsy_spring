@@ -69,7 +69,7 @@ public class Session {
         return dateDay.format(DateTimeFormatter.ofPattern("dd MMMM"));
     }
 
-    // Метод для получения времени в нужном формате
+
     public String getFormattedTime() {
         return dateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
     }

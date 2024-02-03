@@ -37,23 +37,19 @@
             <label for="online">Онлайн</label>
             <input type="radio" id="offline" name="format" value="false" >
             <label for="offline">Оффлайн</label><br><br>
+            <input type="hidden" name="status" value="W">
 
-            <input type="hidden" name="status" value="Ожидается">
-
-            <label for="psychologist">Психолог:</label>
-            <select id="psychologist" name="psychologist" required>
+            <select style="display: none;" id="psychologist" name="psychologist" required>
                 <option th:each="psychologist : ${psychologist}" th:value="${psychologist.id}" th:selected="${psychologist.id eq 1}">
-           ID: <span th:text="${psychologist.id}"></span>, Имя: <span th:text="${psychologist.name}"></span>
+                    ID: <span th:text="${psychologist.id}"></span>, Имя: <span th:text="${psychologist.name}"></span>
                 </option>
             </select><br><br>
 
-            <label for="client">Клиент:</label>
-            <select id="client" name="client" required>
+            <select style="display: none;" id="client" name="client" required>
                 <option th:each="client : ${client}" th:value="${client.id}" th:selected="${client.id eq 1}">
-                   ID: <span th:text="${client.id}"></span>, Имя: <span th:text="${client.name}"></span>
+                    ID: <span th:text="${client.id}"></span>, Имя: <span th:text="${client.name}"></span>
                 </option>
             </select><br><br>
-
         </div>
         <input type="submit" class="btn btn-success" style="margin-top: 1rem; margin-right: 1rem;" value="Добавить"/>
         <input type="reset" class="btn btn-warning" style="margin-top: 1rem;" value="Очистить поле"/>

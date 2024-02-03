@@ -27,7 +27,7 @@
     <div class="form-group col-md-12">
     <img th:src="${psychologist.image}" alt="" border="3" style="max-height: 400px; max-width: 400px; width: auto; height: auto;">
     </div>
-<a class="btn btn-info" th:href="@{'/session/addingforclient/' + ${psychologist.id}}">Подробнее</a>
+<a class="btn btn-info" th:href="@{'/psychologist/detailsforclient/date/' + ${psychologist.id}}">Выбрать</a>
     <a href="javascript:history.back()" class="btn btn-info" style="margin-top: 1rem;">Вернуться назад</a>
 </div>
 </body>

@@ -40,12 +40,22 @@ public class WebSecurityConfigAuthentication{
 
         http.authorizeHttpRequests(auth ->
                 auth
-                        .requestMatchers(mvcMatcherBuilder.pattern("/client")).permitAll()
-                        .requestMatchers(mvcMatcherBuilder.pattern("/client")).hasAnyRole("ADMIN")
-                        .requestMatchers(PathRequest.toH2Console()).authenticated()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/home")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/register")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/registerpsy")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/registpsythank")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/psychologist")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/client"),
+                                mvcMatcherBuilder.pattern("/method"),
+                                mvcMatcherBuilder.pattern("/specialization"),
+                                mvcMatcherBuilder.pattern("/session")).hasAnyRole("ADMIN")
+                        // .requestMatchers(mvcMatcherBuilder.pattern("/psychologist")).hasAnyRole("PSYCHOLOGIST", "CLIENT", "ADMIN")
+                        .requestMatchers(PathRequest.toH2Console()).hasAnyRole("ADMIN")
+                        // .antMatchers("/").permitAll()
                         .anyRequest().authenticated()
         );
-
+        http.logout(logout -> logout.logoutSuccessUrl("/home"));
         http.formLogin(Customizer.withDefaults());
         http.httpBasic(Customizer.withDefaults());
 

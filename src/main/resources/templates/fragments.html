@@ -10,18 +10,21 @@
 
     <div id="menu">
         <ul>
-            <li><a th:href="@{/}">NeuroPsy</a></li>
-            <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/psychologist}">Психологи</a></li>
+            <li><a th:href="@{/home}">NeuroPsy</a></li>
+            <li><a th:href="@{/home}">Home</a></li>
+            <li><a th:href="@{/psychologist}">Каталог</a></li>
+            <li><a th:href="@{/registerpsy}">Психологам</a></li>
             <li><a sec:authorize="hasRole('ADMIN')" th:href="@{/method}">Методы</a></li>
             <li><a sec:authorize="hasRole('ADMIN')" th:href="@{/specialization}">Специализации</a></li>
+            <li><a sec:authorize="hasRole('ADMIN')" th:href="@{/client}">Клиенты</a></li>
             <li><a sec:authorize="hasRole('ADMIN')" th:href="@{/session}">Сессии</a></li>
         </ul>
         <div class="user-links"><a th:if="${not #authorization.expression('isAuthenticated()')}" th:href="@{/login}">Войти</a>
             <a th:if="${not #authorization.expression('isAuthenticated()')}"
                th:href="@{/register}">Зарегистрироваться</a> <a
                     th:if="${#authorization.expression('isAuthenticated()')}" th:href="@{/logout}">Выйти</a> <a
-                    th:if="${#authorization.expression('isAuthenticated()')}" th:href="@{/profile}">Профиль</a></div>
+                    th:if="${#authorization.expression('isAuthenticated()')}" sec:authorize="hasRole('CLIENT')" th:href="@{/profile}">Профиль</a><a
+                    th:if="${#authorization.expression('isAuthenticated()')}" sec:authorize="hasRole('PSYCHOLOGIST')" th:href="@{/profilepsy}">Профиль</a></div>
     </div>
 </div>
 
